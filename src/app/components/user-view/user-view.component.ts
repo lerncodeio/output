@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { switchMap } from 'rxjs';
+import { filter, switchMap } from 'rxjs';
 import { User } from '../../modals/user.modal';
 import { UserService } from '../../services/user.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -10,12 +10,13 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 @Component({
     selector: 'app-user-view',
     standalone: true,
-    imports: [CommonModule, HttpClientModule],
+    imports: [CommonModule],
     template: `
-        <ng-template *ngIf="selectedUser">
+        <ng-container *ngIf="selectedUser">
             <div>{{ selectedUser | json }}</div>
             <button (click)="sendButtonClick()">Send to parent</button>
-        </ng-template>
+            <ng-container> </ng-container
+        ></ng-container>
     `,
 })
 export class UserViewComponent implements OnInit {
@@ -27,6 +28,7 @@ export class UserViewComponent implements OnInit {
     ngOnInit(): void {
         this.activatedRoute.queryParams
             .pipe(
+                filter(params => params['id']),
                 switchMap(params => this.userService.getUsers(params['id'])),
                 takeUntilDestroyed(this.destroyRef)
             )
