@@ -12,8 +12,10 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     standalone: true,
     imports: [CommonModule, HttpClientModule],
     template: `
-        <div>{{ selectedUser | json }}</div>
-        <button (click)="sendButtonClick()">Send to parent</button>
+        <ng-template *ngIf="selectedUser">
+            <div>{{ selectedUser | json }}</div>
+            <button (click)="sendButtonClick()">Send to parent</button>
+        </ng-template>
     `,
 })
 export class UserViewComponent implements OnInit {
