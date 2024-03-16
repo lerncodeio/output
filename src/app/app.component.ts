@@ -6,7 +6,7 @@ import { UserViewComponent } from './components/user-view/user-view.component';
     selector: 'app-root',
     standalone: true,
     imports: [RouterOutlet, UserViewComponent],
-    templateUrl: './app.component.html',
+    template: ` <app-user-view />`,
 })
 export class AppComponent {
     title = 'output';
